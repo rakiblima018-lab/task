@@ -1,0 +1,50 @@
+==========================================
+GitHub Upload Checklist
+==========================================
+
+✅ MUST UPLOAD (Required):
+---------------------------
+bot-simple.js
+package.json
+Procfile
+render.yaml
+index.html
+admin.html
+.gitignore
+
+✅ SHOULD UPLOAD (Recommended):
+--------------------------------
+ecosystem.config.js
+README.md
+BOT_SETUP.md
+CLOUD_DEPLOYMENT.md
+
+❌ NEVER UPLOAD (Dangerous):
+-----------------------------
+serviceAccountKey.json  ← SECRET FILE!
+node_modules/
+logs/
+*.log
+.env
+.DS_Store
+Thumbs.db
+
+==========================================
+Quick Commands:
+==========================================
+
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main
+
+==========================================
+For Hostinger (Website):
+==========================================
+Upload via FTP/cPanel:
+- index.html
+- admin.html
+
+==========================================
+

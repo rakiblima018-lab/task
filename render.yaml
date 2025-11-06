@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: telegram-bot-taskjob
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node bot-simple.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+
