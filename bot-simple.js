@@ -3,6 +3,7 @@
 
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
+const http = require('http');
 
 // Bot Token
 const BOT_TOKEN = '8261350826:AAHCxoLbXzRqRZIuP7qCEA3_egxdm4VGw8w';
@@ -17,6 +18,50 @@ const WEB_APP_URL = 'https://waaletlima.blogspot.com/';
 const FIREBASE_URL = 'https://taskjob-f0ac5-default-rtdb.firebaseio.com';
 
 console.log('🤖 Bot is starting...');
+
+// Initialize task settings with Monetager ads script
+async function initializeTaskSettings() {
+    try {
+        const taskSettingsRef = `${FIREBASE_URL}/taskSettings.json`;
+        const currentSettings = await axios.get(taskSettingsRef).catch(() => ({ data: null }));
+        
+        // Monetager ads script
+        const adsScript = `<script src='//libtl.com/sdk.js' data-zone='10151928' data-sdk='show_10151928'></script>`;
+        
+        // Default task settings
+        const defaultTaskSettings = {
+            channelLink: '',
+            adsScript: adsScript,
+            rewardAmount: 5,
+            dailyLimit: 20,
+            updatedAt: new Date().toISOString(),
+            updatedBy: 'bot-initialization'
+        };
+        
+        // Only update if settings don't exist or adsScript is missing
+        if (!currentSettings.data || !currentSettings.data.adsScript) {
+            await axios.put(taskSettingsRef, defaultTaskSettings);
+            console.log('✅ Task settings initialized with Monetager ads script');
+        } else {
+            // Update only adsScript if it's different
+            if (currentSettings.data.adsScript !== adsScript) {
+                await axios.patch(taskSettingsRef, {
+                    adsScript: adsScript,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: 'bot-update'
+                });
+                console.log('✅ Monetager ads script updated in task settings');
+            } else {
+                console.log('ℹ️  Monetager ads script already configured');
+            }
+        }
+    } catch (error) {
+        console.error('❌ Error initializing task settings:', error.message);
+    }
+}
+
+// Initialize task settings on bot start
+initializeTaskSettings();
 
 // Handle /start command
 bot.onText(/\/start(.*)/, async (msg, match) => {
@@ -196,7 +241,22 @@ async function handleReferral(newUserId, referrerId, newUserName) {
     }
 }
 
-console.log('✅ Bot is running and ready to receive messages!');
-console.log('📱 Test by sending /start to your bot');
+// Start HTTP server for Render.com (bind to port)
+const PORT = process.env.PORT || 3000;
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ 
+        status: 'ok', 
+        message: 'Bot is running',
+        timestamp: new Date().toISOString()
+    }));
+});
+
+server.listen(PORT, () => {
+    console.log(`🌐 HTTP server listening on port ${PORT}`);
+    console.log('✅ Bot is running and ready to receive messages!');
+    console.log('📱 Test by sending /start to your bot');
+});
 
 
