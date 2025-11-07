@@ -19,14 +19,14 @@ const FIREBASE_URL = 'https://taskjob-f0ac5-default-rtdb.firebaseio.com';
 
 console.log('🤖 Bot is starting...');
 
-// Initialize task settings with Gigapub ads script
+// Initialize task settings with Gigapub OfferWall SDK
 async function initializeTaskSettings() {
     try {
         const taskSettingsRef = `${FIREBASE_URL}/taskSettings.json`;
         const currentSettings = await axios.get(taskSettingsRef).catch(() => ({ data: null }));
         
-        // Gigapub ads script
-        const adsScript = `<script src="https://cdn.gigapub.com/sdk.js" data-app-id="4187"></script>`;
+        // Gigapub OfferWall SDK script
+        const adsScript = `<script src="https://cdn.giga.pub/script/offer/loader/loader.js"></script>`;
         
         // Default task settings
         const defaultTaskSettings = {
@@ -41,7 +41,7 @@ async function initializeTaskSettings() {
         // Only update if settings don't exist or adsScript is missing
         if (!currentSettings.data || !currentSettings.data.adsScript) {
             await axios.put(taskSettingsRef, defaultTaskSettings);
-            console.log('✅ Task settings initialized with Gigapub ads script');
+            console.log('✅ Task settings initialized with Gigapub OfferWall SDK');
         } else {
             // Update only adsScript if it's different
             if (currentSettings.data.adsScript !== adsScript) {
@@ -50,9 +50,9 @@ async function initializeTaskSettings() {
                     updatedAt: new Date().toISOString(),
                     updatedBy: 'bot-update'
                 });
-                console.log('✅ Gigapub ads script updated in task settings');
+                console.log('✅ Gigapub OfferWall SDK updated in task settings');
             } else {
-                console.log('ℹ️  Gigapub ads script already configured');
+                console.log('ℹ️  Gigapub OfferWall SDK already configured');
             }
         }
     } catch (error) {
