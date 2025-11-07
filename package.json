@@ -2,7 +2,7 @@
   "name": "telegram-bot-taskjob",
   "version": "1.0.0",
   "description": "Telegram Bot for Task Job with Firebase integration",
-  "main": "bot.js",
+  "main": "bot-simple.js",
   "scripts": {
     "start": "node bot-simple.js",
     "dev": "nodemon bot-simple.js",
@@ -16,9 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-telegram-bot-api": "^0.64.0",
-    "firebase-admin": "^12.0.0",
-    "axios": "^1.6.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "firebase-admin": "^12.7.0",
+    "axios": "^1.7.9"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
